@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
+import BooksList from './pages/BooksList';
+import BookDetails from './pages/BookDetails';
 
 // PUBLIC_INTERFACE
 function App() {
+  /** Root application with navbar and routes to pages. */
   const [theme, setTheme] = useState('light');
 
-  // Effect to apply theme to document element
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
@@ -17,32 +19,29 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <button 
-          className="theme-toggle" 
-          onClick={toggleTheme}
-          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-        >
-          {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
-        </button>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          Current theme: <strong>{theme}</strong>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <nav style={{ display: 'flex', gap: 16, padding: 16, borderBottom: '1px solid #e5e7eb', alignItems: 'center' }}>
+          <Link to="/" style={{ textDecoration: 'none', fontWeight: 700 }}>Bookstore</Link>
+          <Link to="/books" style={{ textDecoration: 'none' }}>Books</Link>
+          <button 
+            className="theme-toggle"
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            style={{ marginLeft: 'auto' }}
+          >
+            {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
+          </button>
+        </nav>
+        <main>
+          <Routes>
+            <Route path="/" element={<Navigate to="/books" replace />} />
+            <Route path="/books" element={<BooksList />} />
+            <Route path="/books/:id" element={<BookDetails />} />
+          </Routes>
+        </main>
+      </div>
+    </BrowserRouter>
   );
 }
 
