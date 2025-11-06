@@ -1,4 +1,4 @@
-const DEFAULT_BASE_URL = 'http://localhost:3001';
+const DEFAULT_BASE_URL = 'https://vscode-internal-14651-beta.beta01.cloud.kavia.ai:3001';
 
 const getBaseUrl = () => {
   // In future, can use process.env.REACT_APP_API_BASE_URL
